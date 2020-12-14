@@ -1,0 +1,1 @@
+multipass launch -c 6 -d 50G -m 4G --name dev --cloud-init cloud-config.yaml
