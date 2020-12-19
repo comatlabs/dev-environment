@@ -1,4 +1,5 @@
-multipass launch -c 6 -d 50G -m 4G --name dev --cloud-init cloud-config.yaml > >(tee -a /tmp/multipass.log) 2> >(tee -a /tmp/multipass.log >&2)
+rm ./multipass.log
+multipass launch -c 6 -d 50G -m 4G --name dev --cloud-init cloud-config.yaml > >(tee -a ./multipass.log) 2> >(tee -a ./multipass.log >&2)
 if [ $? ]; then
   if grep timed ./multipass.log; then
     echo "Initialization often takes longer than multipass allows..."
@@ -9,11 +10,13 @@ if [ $? ]; then
 fi
 
 wait_for_shutdown (){
+  set -o pipefail
   while ! powershell Get-Vm -Name dev | grep 'Off'
     do
       echo "VM still running, retry in 5s"
       sleep 5
     done
+  set +o pipefail
 }
 
 echo "Waiting 5m for VM to halt."
@@ -27,5 +30,6 @@ else
   echo "Configuring VM."
   powershell set-vm dev -enhancedsessiontransporttype hvsocket
   powershell Enable-VMIntegrationService -VMName dev -Name \"Guest Service Interface\"
-  echo "All set."
+  powershell Start-VM -Name dev
+  echo "Done!"
 fi

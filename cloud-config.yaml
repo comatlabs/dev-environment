@@ -12,24 +12,29 @@ package_reboot_if_required: true
 apt:
  sources:
   saltstack:
-   source: repo.saltstack.com/archive.repo.saltstack.com
+   source: deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest bionic main
 
 packages:
- - ubuntu-desktop
- - git
  - salt-master
  - salt-minion
- 
+
 runcmd:
-  - 'git clone https://github.com/Microsoft/linux-vm-tools.git /opt/linux-vm-tools'
-  - [ cd, /opt/linux-vm-tools/ubuntu/18.04/ ]
-  - [ chmod, +x, install.sh ]
-  - ./install.sh
-  - 'sed -i s|port=3389|port=vsock://-1:3389|g /etc/xrdp/xrdp.ini'
-  - 'sed -i s|use_vsock=true|use_vsock=false|g /etc/xrdp/xrdp.ini'
-  - [ systemctl, restart, xrdp ]
-  - 'wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.18.7609.tar.gz -O /run/jetbrains-toolbox.tar.gz'
-  - 'tar -xzf /run/jetbrains-toolbox.tar.gz -C /opt/' 
+  - 'wget -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -'
+  - 'sed -i s/file_client: remote/file_client: local/g'
+  - 'mkdir -p /srv'
+  - 'git clone https://github.com/comatlabs/dev-environment.git /home/ununtu/dev-environment'
+  - 'ln -s /home/ubuntu/dev-environment/salt /srv/salt'
+ 
+#runcmd:
+#  - 'git clone https://github.com/Microsoft/linux-vm-tools.git /opt/linux-vm-tools'
+#  - [ cd, /opt/linux-vm-tools/ubuntu/18.04/ ]
+#  - [ chmod, +x, install.sh ]
+#  - ./install.sh
+#  - 'sed -i s|port=3389|port=vsock://-1:3389|g /etc/xrdp/xrdp.ini'
+#  - 'sed -i s|use_vsock=true|use_vsock=false|g /etc/xrdp/xrdp.ini'
+#  - [ systemctl, restart, xrdp ]
+#  - 'wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.18.7609.tar.gz -O /run/jetbrains-toolbox.tar.gz'
+#  - 'tar -xzf /run/jetbrains-toolbox.tar.gz -C /opt/'
   
 power_state:
   delay: now
