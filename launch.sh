@@ -1,7 +1,7 @@
 rm ./multipass.log
 multipass launch -c 6 -d 50G -m 4G --name dev --cloud-init cloud-config.yaml > >(tee -a ./multipass.log) 2> >(tee -a ./multipass.log >&2)
 if [ $? ]; then
-  if grep timed ./multipass.log; then
+  if grep timed ./multipass.log > /dev/null; then
     echo "Initialization often takes longer than multipass allows..."
   else
     echo "Multipass failed.  Quitting."
