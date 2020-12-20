@@ -1,5 +1,9 @@
-kubuntu-desktop:
-  pkg.installed
+gui.packages:
+  pkg.installed:
+    - pkgs:
+      - kubuntu-desktop
+      - tigervnc-standalone-server
+
 
 #ubuntu-desktop:
 #  pkg.installed
