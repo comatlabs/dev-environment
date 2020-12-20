@@ -3,36 +3,36 @@ password: ubuntu
 chpasswd: { expire: False }
 ssh_pwauth: True
 ssh_authorized_keys:
-  - ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDa3RALuS1ESQLny3qT3dEgMS8Hc95vxgXk9iLxBrGK6GmBTYMDMPJTDuDVodLDoQAkXSpkMYZG3qVTcQUA73XbXOjTbWTYb8/IyFvt6GJpuiIaSZudixyvvopZn2lfMYfWEaNr1Q838z3pW/zqcymI2UIwWXLy2uhIVApnHyRHNSy0VWEb4jjhom7zbt11rELGWrKptQ8k0nnNPoFSIpl4YZHqasoOV6vzH8hVoWwyVBBAlMtea5uvpQNEO4g+5+Zq7YLldYLaF+iHmWYEFq72icHze4Z1kN+gbq8AbsTcNWW0/m2skMbbXCCWhCrulpqCpeLlMS+gIQZvqeSV/ybH mat@DESKTOP-JNSD4LL
-
-package_update: true
-package_upgrade: true
-package_reboot_if_required: true
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDa3RALuS1ESQLny3qT3dEgMS8Hc95vxgXk9iLxBrGK6GmBTYMDMPJTDuDVodLDoQAkXSpkMYZG3qVTcQUA73XbXOjTbWTYb8/IyFvt6GJpuiIaSZudixyvvopZn2lfMYfWEaNr1Q838z3pW/zqcymI2UIwWXLy2uhIVApnHyRHNSy0VWEb4jjhom7zbt11rELGWrKptQ8k0nnNPoFSIpl4YZHqasoOV6vzH8hVoWwyVBBAlMtea5uvpQNEO4g+5+Zq7YLldYLaF+iHmWYEFq72icHze4Z1kN+gbq8AbsTcNWW0/m2skMbbXCCWhCrulpqCpeLlMS+gIQZvqeSV/ybH mat@DESKTOP-JNSD4LL
 
 apt:
  sources:
   saltstack:
    source: deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest bionic main
+   keyserver: https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub
+   keyid: DE57BFBE
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
 
 packages:
+ - git
  - salt-master
  - salt-minion
 
 runcmd:
-  - 'wget -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -'
-  - 'sed -i s/file_client: remote/file_client: local/g'
+  - 'sed -i "s/#file_client: remote/file_client: local/g" /etc/salt/minion'
   - 'mkdir -p /srv'
-  - 'git clone https://github.com/comatlabs/dev-environment.git /home/ununtu/dev-environment'
+  - 'git clone https://github.com/comatlabs/dev-environment.git /home/ubuntu/dev-environment'
   - 'ln -s /home/ubuntu/dev-environment/salt /srv/salt'
- 
-#runcmd:
-#  - 'git clone https://github.com/Microsoft/linux-vm-tools.git /opt/linux-vm-tools'
-#  - [ cd, /opt/linux-vm-tools/ubuntu/18.04/ ]
+  - 'salt-call --local state.apply'
+
+#  - 'git clone https://github.com/Hinara/linux-vm-tools.git /opt/linux-vm-tools'
+#  - [ cd, /opt/linux-vm-tools/ubuntu/20.04/ ]
 #  - [ chmod, +x, install.sh ]
 #  - ./install.sh
-#  - 'sed -i s|port=3389|port=vsock://-1:3389|g /etc/xrdp/xrdp.ini'
-#  - 'sed -i s|use_vsock=true|use_vsock=false|g /etc/xrdp/xrdp.ini'
-#  - [ systemctl, restart, xrdp ]
+
 #  - 'wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.18.7609.tar.gz -O /run/jetbrains-toolbox.tar.gz'
 #  - 'tar -xzf /run/jetbrains-toolbox.tar.gz -C /opt/'
   
