@@ -27,14 +27,6 @@ runcmd:
   - 'git clone https://github.com/comatlabs/dev-environment.git /home/ubuntu/dev-environment'
   - 'ln -s /home/ubuntu/dev-environment/salt /srv/salt'
   - 'salt-call --local state.apply'
-
-#  - 'git clone https://github.com/Hinara/linux-vm-tools.git /opt/linux-vm-tools'
-#  - [ cd, /opt/linux-vm-tools/ubuntu/20.04/ ]
-#  - [ chmod, +x, install.sh ]
-#  - ./install.sh
-
-#  - 'wget -q https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.18.7609.tar.gz -O /run/jetbrains-toolbox.tar.gz'
-#  - 'tar -xzf /run/jetbrains-toolbox.tar.gz -C /opt/'
   
 power_state:
   delay: now

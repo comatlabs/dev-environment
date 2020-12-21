@@ -11,10 +11,10 @@ fi
 
 wait_for_shutdown (){
   count=0
-  while [ $count -lt 6 ]
+  while [ $count -lt 3 ]
     do
       if powershell Get-Vm -Name dev | grep 'Off' > /dev/null; then
-        echo "vm is off, waiting for possible reboot: " $count "/6"
+        echo "vm is off, waiting for possible reboot: " $count "/3"
         count=$((count+1))
       else
         if [ $count -ne 0 ]; then
