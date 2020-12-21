@@ -5,7 +5,8 @@ gui.packages:
       - tigervnc-standalone-server
 
 'mkdir -p /home/ubuntu/.vnc && printf "ubuntu\nubuntu\n\n\n" | vncpasswd':
-  cmd.run
+  cmd.run:
+    - runas: ubuntu
 
 /etc/systemd/system/vncserver@.service:
   file.managed:
