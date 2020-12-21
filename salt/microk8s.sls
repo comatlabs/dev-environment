@@ -1,3 +1,6 @@
+'snap install kubectl --classic':
+  cmd.run
+
 'snap install microk8s --classic':
   cmd.run
 
