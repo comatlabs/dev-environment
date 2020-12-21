@@ -11,6 +11,10 @@ apt:
    source: deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest bionic main
    keyserver: https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub
    keyid: DE57BFBE
+  docker:
+   source: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+   keyserver: https://download.docker.com/linux/ubuntu/gpg
+   keyid: 0EBFCD88
 
 package_update: true
 package_upgrade: true
@@ -20,6 +24,9 @@ packages:
  - git
  - salt-master
  - salt-minion
+ - docker-ce
+ - docker-ce-cli
+ - containerd.io
 
 runcmd:
   - 'sed -i "s/#file_client: remote/file_client: local/g" /etc/salt/minion'
