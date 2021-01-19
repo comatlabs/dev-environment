@@ -18,11 +18,11 @@ gui.packages:
 'systemctl daemon-reload && systemctl enable vncserver@1.service':
   cmd.run
 
-#'kwriteconfig5 --file /home/ubuntu/.config/kdeglobals --group KScreen --key ScaleFactor 2':
-#  cmd.run
-#
-#'kwriteconfig5 --file /home/ubuntu/.config/kdeglobals --group KScreen --key ScreenScaleFactors VNC-0=2':
-#  cmd.run
+xfconf-query -c xsettings -p /Gdk/WindowScalingFactor -s 2:
+  cmd.run
+
+xfconf-query -c xfwm4 -p /general/theme -s Default-xhdpi:
+  cmd.run
 
 'chown -R ubuntu:ubuntu /home/ubuntu':
   cmd.run
