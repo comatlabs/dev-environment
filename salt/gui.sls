@@ -12,8 +12,8 @@ gui.packages:
   file.managed:
       - source: salt://vncserver@.service
 
-#'printf "#!/bin/sh\ndbus-launch startplasma-x11\n" > /home/ubuntu/.vnc/xstartup && chmod +x /home/ubuntu/.vnc/xstartup':
-#  cmd.run
+'printf "#!/bin/sh\nstartxfce4\n" > /home/ubuntu/.vnc/xstartup && chmod +x /home/ubuntu/.vnc/xstartup':
+  cmd.run
 
 'systemctl daemon-reload && systemctl enable vncserver@1.service':
   cmd.run
